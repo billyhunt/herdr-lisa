@@ -13,7 +13,7 @@ for f in lisa.json lisa.png lisa-airbrush.json lisa-airbrush.png; do
   cp "$herdr/layouts/$f" "$dest/layouts/"
 done
 cp "$herdr/themes/lisa-day.json" "$herdr/themes/lisa-dusk.json" "$dest/themes/"
-cp "$herdr/backgrounds/lisa-airbrush.png" "$dest/backgrounds/"
+cp "$herdr/backgrounds/lisa-stardust-pair.png" "$dest/backgrounds/"
 cp "$herdr/lisa-kit/lisa.js" "$dest/lisa-kit/"
 for mod in "${mods[@]}"; do
   rm -rf "$dest/mods/$mod"

@@ -13,3 +13,7 @@ main layout. The icons (*.svg) in those mods are Herdr's.
 Fonts in lisa/fonts keep their own licences: Bungee Shade, Fredoka and Space
 Mono under the SIL Open Font License 1.1 (OFL-*.txt); Comic Mono under the MIT
 License (LICENSE-comicmono.txt).
+
+The stardust unicorns in lisa/backgrounds/lisa-stardust-pair.png are taken
+from the hero art of https://www.billyhunt.com/ by Billy Hunt, and shared here
+under the same terms as the rest of this repository.

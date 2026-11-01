@@ -131,7 +131,7 @@
                         "height": 34,
                         "position": "top"
                       },
-                      "background": { "image": "backgrounds/lisa-airbrush.png", "fit": "cover" },
+                      "background": { "image": "backgrounds/lisa-stardust-pair.png", "fit": "cover" },
                       "border": {
                         "width": 3,
                         "color": "border"

@@ -25,7 +25,7 @@ files and leave your current layout and themes alone.
 | Herdr layout | Look | oh-my-pi theme |
 |---|---|---|
 | `lisa` | Day: paper page, lilac sidebar and pane headers, white terminal | `lisa-day` |
-| `lisa-airbrush` | Dusk: midnight panels, airbrushed sky with sparkles behind the terminal | `lisa-dusk` |
+| `lisa-airbrush` | Dusk: midnight panels; behind the terminal, an airbrushed sky with two stardust unicorns | `lisa-dusk` |
 
 `Cmd/Ctrl-Shift-L` cycles Herdr's layouts. oh-my-pi picks its light or dark
 theme from the terminal's background, so it follows the layout by itself.

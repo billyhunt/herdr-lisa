@@ -5,7 +5,7 @@ A neon, 90s school-supplies look for Herdr, after the
 under ink, 3px edges everywhere, pill-shaped rows and buttons, a six-colour
 spectrum strip across the top, and colour that always means something. Two
 layouts: `lisa` (Day: paper and lilac) and `lisa-airbrush` (Dusk: midnight
-panels over an airbrushed sky).
+panels over an airbrushed sky with a stardust unicorn).
 
 ![Lisa](preview.png)
 
@@ -40,8 +40,12 @@ Top to bottom, left to right, in both layouts:
   - `lisa`: the header is a lilac `chrome` strip over a 3px rule, the terminal
     a white field below it, like a folder card.
   - `lisa-airbrush`: the header is see-through and the terminal is 55% opaque,
-    so a midnight sky with violet, magenta, cyan and orange glows and sparkles
-    (`backgrounds/lisa-airbrush.png`) shows behind both.
+    so an airbrushed midnight sky (violet, magenta, cyan and orange glows, white
+    twinkles, a few soft white sparkles) shows behind both. Two slender rearing
+    unicorns in stardust (pale lavender specks inside a dotted outline, from
+    billyhunt.com's hero art) flank it, mirrored and facing in, each about
+    three-quarters of the height with a bright sparkle on its horn
+    (`backgrounds/lisa-stardust-pair.png`).
 - **Status bar**, 32px, `chrome`, 3px rule above: Space Mono capitals, `THIS
   COMPUTER`, branch, `1 AGENT`, count chips, and the palette hint.
 - **Fonts**: Fredoka (UI, Medium for names), Comic Mono (terminal, 14px),
@@ -89,7 +93,7 @@ Top to bottom, left to right, in both layouts:
   `findNode`, `narrow`, `toggleSidebar`. Mods can't import across folders,
   hence the copies.
 - `fonts/`: Bungee Shade, Fredoka (Regular, Medium, SemiBold, Bold), Space
-  Mono, Comic Mono, with licences. `backgrounds/lisa-airbrush.png`, 2400x1600.
+  Mono, Comic Mono, with licences. `backgrounds/lisa-stardust-pair.png`, 3000x2000.
 - Shipped mods it still uses unchanged: `files`, `changes`, `new-menu`, `menu`,
   `picker`, `machine-add` (and their icons, e.g. `mods/files/file.svg`).
 - Companion oh-my-pi themes live outside this folder (`../omp/themes`).
@@ -109,7 +113,10 @@ Top to bottom, left to right, in both layouts:
 - Fredoka has no Black weight; `font_black()` falls back to Bold.
 - Comic Mono has no `π`; the terminal falls back for that glyph.
 - With `terminal_opacity` below 1, art shows only where programs leave the
-  background empty; solid backgrounds (tool blocks, status lines) cover it.
+  background empty; solid backgrounds cover it. The companion oh-my-pi
+  `lisa-dusk` theme leaves running and finished tool blocks see-through (`""`)
+  for that reason.
+- Herdr caches background images by path: give a redrawn image a new file name.
 - The stock `picker` keeps its own space colours (`space.colors`), so its
   avatars don't match the sidebar's project colours.
 
@@ -121,5 +128,5 @@ Top to bottom, left to right, in both layouts:
   `1 WORKING` chip in the status bar; blocked turns them magenta with `NEEDS YOU`.
 - An idle space is soft violet; reordering spaces doesn't change avatar colours.
 - In `lisa` the pane header is lilac over a white terminal; in `lisa-airbrush`
-  sparkles show through the header and around terminal text.
+  the sky and the stardust unicorn show through the header and around text.
 - The rail fold keeps avatars whole at 60px and 76px.
