@@ -85,8 +85,9 @@ Top to bottom, left to right, in both layouts:
   `lisa-workspace-chrome`, `lisa-workspace-status`: restyled clones of the
   shipped mods (same commands, same `herdr` calls). Each carries an identical
   `lisa.js` (source `lisa-kit/lisa.js`): `fill`, `onFill`, `statusFill`,
-  `label`, `chip`, `row`, `lift`, `roundButton`. Mods can't import across
-  folders, hence the copies.
+  `label`, `chip`, `row`, `lift`, `roundButton`, and the sidebar helpers
+  `findNode`, `narrow`, `toggleSidebar`. Mods can't import across folders,
+  hence the copies.
 - `fonts/`: Bungee Shade, Fredoka (Regular, Medium, SemiBold, Bold), Space
   Mono, Comic Mono, with licences. `backgrounds/lisa-airbrush.png`, 2400x1600.
 - Shipped mods it still uses unchanged: `files`, `changes`, `new-menu`, `menu`,
