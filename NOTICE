@@ -1,0 +1,15 @@
+herdr-lisa
+Copyright 2026 Billy Hunt
+
+lisa/mods/lisa-spaces, lisa-agents, lisa-tabs, lisa-pane, lisa-workspace-chrome
+and lisa-workspace-status are modified copies of the spaces, agents, tabs, pane,
+workspace-chrome and workspace-status mods shipped with Herdr 0.1.11
+(https://herdr.dev), licensed under the Apache License, Version 2.0. They were
+restyled to the Lisa design system: status-filled pills, 3px edges, Lisa fonts
+and theme tokens, per-project avatar colours, and the helpers in lisa.js.
+lisa/layouts/lisa.json and lisa-airbrush.json are modified copies of Herdr's
+main layout. The icons (*.svg) in those mods are Herdr's.
+
+Fonts in lisa/fonts keep their own licences: Bungee Shade, Fredoka and Space
+Mono under the SIL Open Font License 1.1 (OFL-*.txt); Comic Mono under the MIT
+License (LICENSE-comicmono.txt).
