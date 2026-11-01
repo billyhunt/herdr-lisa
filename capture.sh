@@ -6,7 +6,8 @@ set -euo pipefail
 repo="$(cd "$(dirname "$0")" && pwd)"
 dest="$repo/lisa"
 herdr="${HERDR_APP_HOME:-$HOME/.config/herdr-app}"
-omp_themes="${PI_CODING_AGENT_DIR:-$HOME/.omp/agent}/themes"
+omp_agent="${PI_CODING_AGENT_DIR:-$HOME/.omp/agent}"
+omp_themes="$omp_agent/themes"
 mods=(lisa-spaces lisa-agents lisa-tabs lisa-pane lisa-workspace-chrome lisa-workspace-status)
 
 for f in lisa.json lisa.png lisa-airbrush.json lisa-airbrush.png; do
@@ -28,4 +29,5 @@ for mod in "${mods[@]}"; do
     echo "warning: $mod/lisa.js differs from lisa-kit/lisa.js; copy the kit into every mod" >&2
 done
 cp "$omp_themes/lisa-day.json" "$omp_themes/lisa-dusk.json" "$repo/omp/themes/"
+cp "$omp_agent/extensions/lisa-unicorn.ts" "$repo/omp/extensions/"
 git -C "$repo" status --short

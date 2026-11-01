@@ -8,7 +8,8 @@ set -euo pipefail
 repo="$(cd "$(dirname "$0")" && pwd)"
 src="$repo/lisa"
 herdr="${HERDR_APP_HOME:-$HOME/.config/herdr-app}"
-omp_themes="${PI_CODING_AGENT_DIR:-$HOME/.omp/agent}/themes"
+omp_agent="${PI_CODING_AGENT_DIR:-$HOME/.omp/agent}"
+omp_themes="$omp_agent/themes"
 mods=(lisa-spaces lisa-agents lisa-tabs lisa-pane lisa-workspace-chrome lisa-workspace-status)
 
 if [ ! -d "$herdr" ]; then
@@ -31,9 +32,10 @@ for mod in "${mods[@]}"; do
   cp "$src/lisa-kit/lisa.js" "$herdr/mods/$mod/lisa.js" # one helper, one copy per mod
 done
 
-echo "oh-my-pi themes: $omp_themes"
-mkdir -p "$omp_themes"
+echo "oh-my-pi: $omp_agent (themes, unicorn extension)"
+mkdir -p "$omp_themes" "$omp_agent/extensions"
 cp "$repo"/omp/themes/*.json "$omp_themes/"
+cp "$repo"/omp/extensions/*.ts "$omp_agent/extensions/"
 
 if $first; then
   if command -v omp >/dev/null 2>&1; then

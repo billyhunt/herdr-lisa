@@ -28,7 +28,9 @@ files and leave your current layout and themes alone.
 | `lisa-airbrush` | Dusk: midnight panels; behind the terminal, an airbrushed sky with two stardust unicorns | `lisa-dusk` |
 
 `Cmd/Ctrl-Shift-L` cycles Herdr's layouts. oh-my-pi picks its light or dark
-theme from the terminal's background, so it follows the layout by itself.
+theme from the terminal's background, so it follows the layout by itself. When
+oh-my-pi opens, a fat ASCII unicorn with a rainbow mane sits under its logo
+(in the theme's colours) until you send your first message.
 
 Pills show status everywhere (spaces, agents, folder tabs):
 
@@ -53,6 +55,7 @@ worktrees and second checkouts) or folder. The selected item has a hard shadow.
 | `lisa/lisa-kit/lisa.js` | The shared helper; `install.sh` copies it into each mod (Herdr mods can't import across folders) |
 | `lisa/fonts/`, `lisa/backgrounds/` | Loaded by Herdr from its home |
 | `omp/themes/` | oh-my-pi's `lisa-day` and `lisa-dusk`, installed to `~/.omp/agent/themes/` |
+| `omp/extensions/lisa-unicorn.ts` | The welcome unicorn, installed to `~/.omp/agent/extensions/`; loads the next time oh-my-pi starts |
 
 ## Changing it
 
