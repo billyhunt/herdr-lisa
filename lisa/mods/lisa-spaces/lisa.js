@@ -8,6 +8,7 @@
 // Rules: neon is a fill, never text by Day; text on a fill is onFill(t, n);
 // every edge is 3px; buttons and chips are pills.
 import { div } from "gpui-kit";
+import { layout, run, shared, setShared, window } from "herdr";
 
 // Display is for the wordmark only (22px+); small text uses the UI font (Fredoka).
 export const DISPLAY = "Bungee Shade";
@@ -58,3 +59,26 @@ export const lift = (t, el, on) =>
   div().relative().pr(4).pb(4)
     .when(on, w => w.child(div().absolute().top(4).left(4).right(0).bottom(0).rounded_full().bg(t.border)))
     .child(el);
+
+// The layout node with this id, searching the tree.
+export function findNode(node, id) {
+  if (node?.id === id) return node;
+  for (const child of node?.children ?? []) {
+    const found = findNode(child, id);
+    if (found) return found;
+  }
+  return null;
+}
+
+// The sidebar's rail goes by its width, not a flag: dragging its edge narrows it too.
+export const narrow = () => (findNode(layout(), "sidebar")?.size?.px ?? Infinity) < 160;
+
+// To the rail (76 on macOS, wide enough for the traffic lights; 60 elsewhere,
+// room for the 3px edges and the lift shadow), or back to the width it had.
+export function toggleSidebar() {
+  const width = findNode(layout(), "sidebar")?.size?.px;
+  if (!narrow()) setShared("sidebar.width", width);
+  // Mods edited before the rail went by width still read the flag.
+  setShared("sidebar.collapsed", !narrow());
+  run("layout.resize", { id: "sidebar", px: narrow() ? (shared("sidebar.width") ?? 268) : window()?.platform === "macos" ? 76 : 60 });
+}

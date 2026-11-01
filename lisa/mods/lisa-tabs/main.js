@@ -1,16 +1,7 @@
 import { View, div, svg, image } from "gpui-kit";
 import { h_flex } from "gpui-base";
-import { MONO, fill, onFill, roundButton, statusFill } from "./lisa.js";
+import { MONO, fill, onFill, roundButton, statusFill, findNode } from "./lisa.js";
 import { spaces, panes, run, openOverlay, theme, window, shared, layout, settings } from "herdr";
-
-function find(node, id) {
-  if (node?.id === id) return node;
-  for (const child of node?.children ?? []) {
-    const found = find(child, id);
-    if (found) return found;
-  }
-  return null;
-}
 
 export default class Tabs extends View {
   init() {
@@ -77,12 +68,12 @@ export default class Tabs extends View {
           .text_color(ink).hover(s => s.bg(ink).text_color(fill(t, n)))
           .on_mouse_down("left", stop).on_click((_e, cx) => { cx.stop_propagation(); run("tab.close", { id: c.id }); }).child(svg("mods/lisa-tabs/close.svg").size(10))));
     };
-    const root = layout(), sidebar = find(root, "sidebar"), w = window();
+    const root = layout(), sidebar = findNode(root, "sidebar"), w = window();
     // Old saved rails and a dragged-narrow sidebar can be smaller than the window buttons.
     const lightsPadding = w?.platform === "macos" && w.titlebar === "none" && !w.fullscreen && root?.traffic_lights
       ? Math.max(10, (root.traffic_lights[0] + 64) / settings().zoom - (sidebar?.hidden ? 0 : sidebar?.size?.px ?? 0))
       : 10;
-    const panel = find(root, "panel"), body = find(root, "panel-body");
+    const panel = findNode(root, "panel"), body = findNode(root, "panel-body");
     const enabled = shared("workspace.panels") ?? ["files", "changes"];
     this.syncPanel(space, panel, body, enabled);
     const panelButton = (id, label, icon) => {

@@ -6,8 +6,8 @@
 
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
-import { spaces, machines, panes, run, openOverlay, exec, hc, theme, watchFolder, window, layout } from "herdr";
-import { MONO, fill as lisaFill, onFill, accentText, label, chip, roundButton, row as lisaRow, lift, statusFill } from "./lisa.js";
+import { spaces, machines, panes, run, openOverlay, exec, hc, theme, watchFolder, window } from "herdr";
+import { MONO, fill as lisaFill, onFill, accentText, label, chip, roundButton, row as lisaRow, lift, statusFill, narrow } from "./lisa.js";
 
 // Avatar fill is the project's colour, picked from fills 1..6 by where it
 // lives: a git repo's root (shared by its worktrees and second checkouts),
@@ -27,18 +27,6 @@ const dot = (t, n) => div().size(12).flex_none().rounded_full().border_3().borde
 // On a filled row the fill already says working/done; only blocked keeps a
 // notice, lemon on the magenta row.
 const statusMark = (t, status) => (status === "blocked" ? chip(t, "Needs you", 3) : null);
-
-function find(node, id) {
-  if (node?.id === id) return node;
-  for (const child of node?.children ?? []) {
-    const found = find(child, id);
-    if (found) return found;
-  }
-  return null;
-}
-
-// The sidebar's rail goes by its width, not a flag: dragging its edge narrows it too.
-const narrow = () => (find(layout(), "sidebar")?.size?.px ?? Infinity) < 160;
 
 // Where a space is now: its first terminal's live folder, else where it was made.
 // `ps`: panes(), read once by the caller (each read copies every pane).
