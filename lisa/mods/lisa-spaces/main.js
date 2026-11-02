@@ -51,6 +51,15 @@ const colorKey = (k, g) => {
   return JSON.stringify([on, dir.replace(/\/\.git$/, "")]);
 };
 const base = (path) => path.replace(/\/+$/, "").split("/").pop();
+// What an unnamed space is called: its repo, else its folder ("~" at home), the
+// same rule Herdr names by but read from the folder shown (see place()), so a cd
+// into another project renames the row. A name someone gave it never changes.
+const labelOf = (w, k, g) => {
+  if (w.named) return w.name;
+  if (g?.name) return g.name;
+  const dir = JSON.parse(k)[1] ?? "";
+  return !dir || /^\/(Users|home)\/[^/]+\/?$/.test(dir) ? "~" : base(dir);
+};
 // Changes made outside Herdr (an editor's save, a commit in another app): looked
 // for this often, in repos the list shows, while the window is in front.
 const FALLBACK = 60000;
@@ -244,7 +253,7 @@ export default class Spaces extends View {
     for (const w of sp) if (!this.shown.has(w.id) && ready(w)) this.shown.add(w.id);
     const list = sp.map((w, i) => {
       const k = where(w, ps), g = this.git[k] ?? null;
-      return { w, i, g, key: colorKey(k, g), known: k in this.git };
+      return { w, i, g, key: colorKey(k, g), known: k in this.git, label: labelOf(w, k, g) };
     }).filter((r) => this.shown.has(r.w.id));
     this.assignAnimals(list);
     const mains = new Set(list.filter((r) => r.g && !r.g.linked).map((r) => r.g.repo));
@@ -327,7 +336,7 @@ export default class Spaces extends View {
       .when(g.behind > 0, (el) => el.child(div().flex_none().child(`\u2193${g.behind}`)));
   }
 
-  row({ w, i, g, tree, animal }, t) {
+  row({ w, i, g, tree, animal, label }, t) {
     const on = w.active;
     const n = statusFill(w.status);
     const ink = onFill(t, n);
@@ -374,8 +383,8 @@ export default class Spaces extends View {
           .items_center()
           .when(Boolean(tree), el => el.pl(24).child(svg("mods/lisa-spaces/branch.svg").size(12).text_color(ink)))
           .when(!tree, el => el.child(avatar(animal, ink)))
-          .child(div().flex_shrink(0).max_w(150).truncate().font_medium().child(w.name))
-          .child(g ? this.gitTail(g, tree, w.name, t, ink) : div().flex_1())
+          .child(div().flex_shrink(0).max_w(150).truncate().font_medium().child(label))
+          .child(g ? this.gitTail(g, tree, label, t, ink) : div().flex_1())
           .when(Boolean(mark), el => el.child(mark)),
       ), on).flex_none();
   }
