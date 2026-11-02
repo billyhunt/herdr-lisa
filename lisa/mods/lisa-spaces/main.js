@@ -365,7 +365,7 @@ export default class Spaces extends View {
         .when(collapsed, el => el.justify_center())
         .when(!collapsed, el => el.child(label(t, "Spaces")))
         .child(roundButton(t, "space-new", svg("mods/lisa-spaces/plus.svg").size(14), () => run("space.new"))))
-      .child(v_flex().flex_1().min_h(0).px(8).pb(16).overflow_y_scrollbar().mode("always")
+      .child(v_flex().flex_1().min_h(0).px(8).pb(16).gap(4).overflow_y_scrollbar().mode("always")
         .on_mouse_up("left", (_e, cx) => { this.pressed = null; cx.notify(); })
         .children(this.grouped(t, collapsed)));
   }
