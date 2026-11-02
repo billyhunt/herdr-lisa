@@ -30,11 +30,16 @@ const dot = (t, n) => div().size(12).flex_none().rounded_full().border_3().borde
 // notice, lemon on the magenta row.
 const statusMark = (t, status) => (status === "blocked" ? chip(t, "Needs you", 3) : null);
 
-// Where a space is now: its first terminal's live folder, else where it was made.
+// Where a space is now: the live folder of the pane you're in (the shown tab's
+// focused pane, else its first), so a new tab opened in another project moves
+// the space there; else any pane's folder, else where it was made.
 // `ps`: panes(), read once by the caller (each read copies every pane).
 function place(s, ps) {
-  const tabs = new Set((s.tabs ?? []).map((c) => c.id));
-  return ps.find((p) => tabs.has(p.tab) && p.cwd)?.cwd || s.folder;
+  const tabs = s.tabs ?? [];
+  const ids = new Set(tabs.map((c) => c.id));
+  const shown = tabs.find((c) => c.active)?.id;
+  const here = ps.filter((p) => p.tab === shown && p.cwd);
+  return (here.find((p) => p.focused) ?? here[0] ?? ps.find((p) => ids.has(p.tab) && p.cwd))?.cwd || s.folder;
 }
 const rowHeight = ({ tree }) => (tree ? 32 : 36);
 const where = (s, ps) => JSON.stringify([s.machine ?? null, place(s, ps)]);
