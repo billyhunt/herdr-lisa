@@ -41,8 +41,10 @@ Pills show status everywhere (spaces, agents, folder tabs):
 | Done, not yet seen | lime |
 | Idle (waiting for you) | cyan |
 
-A space's circle is its project's colour, picked from its git repo (shared by
-worktrees and second checkouts) or folder. The selected item has a hard shadow.
+A space's mark is a little animal, drawn in ink on its pill: a project is its
+git repo (shared by worktrees and second checkouts) or folder. Projects on
+screen get different animals until all fourteen are in use, and each keeps its
+animal. The selected item has a hard shadow.
 
 ## What's in here
 
@@ -68,7 +70,7 @@ The `lisa-*` mods are copies of Herdr 0.1.11's shipped mods, so Herdr updates
 don't reach them. To pick up a new Herdr feature in one, clone the new stock mod
 (`herdr-app do mod.clone '{"name":"tabs","as":"tabs-new"}'`) and port the Lisa
 styling across. Herdr's stock search picker keeps its own space colours, so its
-avatars don't match the sidebar's project colours.
+avatars don't match the sidebar's animals.
 
 ## Licence
 

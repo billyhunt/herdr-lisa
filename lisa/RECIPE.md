@@ -25,9 +25,13 @@ Top to bottom, left to right, in both layouts:
   - Every space and agent is a 36px pill (`rounded_full`, 3px `border` edge)
     filled with its status (below). The selected or focused one has a hard
     4px offset shadow in the edge colour; nothing else marks selection.
-  - A space's 24px avatar circle shows its initial, filled from fills 1 to 6
-    by a hash of its git repo root (shared by worktrees and second checkouts),
-    else its folder: a project keeps its colour everywhere.
+  - A space's mark is a 24px animal glyph (`mods/lisa-spaces/animal-*.svg`: cat,
+    frog, owl, bear, rabbit, fox, penguin, mouse, pig, elephant, dog, chick,
+    octopus, deer), no circle, inked in the row's
+    on-fill colour. One per project: its git repo root (shared by worktrees and
+    second checkouts), else its folder. A new project takes its hash's animal
+    unless a project in view has it, then the least-used one; the pick is stored
+    in localStorage (`lisa.project.animals`), so a project keeps its animal.
   - Agent groups are chips: `WORKING 1`, `NEEDS YOU 2`, `DONE 1`, `IDLE 3`.
   - Footer, 75px: Settings and Add machine as 32px pills; an `UPDATE` lemon
     chip when an update waits (a lemon dot on the rail).
@@ -118,7 +122,7 @@ Top to bottom, left to right, in both layouts:
   for that reason.
 - Herdr caches background images by path: give a redrawn image a new file name.
 - The stock `picker` keeps its own space colours (`space.colors`), so its
-  avatars don't match the sidebar's project colours.
+  avatars don't match the sidebar's animals.
 
 ## Done when
 
@@ -126,7 +130,7 @@ Top to bottom, left to right, in both layouts:
   shows no errors after `layout.switch {name: "lisa"}` and `"lisa-airbrush"`.
 - An agent working shows a lilac pill in Spaces, Agents and its folder tab and a
   `1 WORKING` chip in the status bar; blocked turns them magenta with `NEEDS YOU`.
-- An idle space is cyan; reordering spaces doesn't change avatar colours.
+- An idle space is cyan; reordering spaces doesn't change a project's animal.
 - In `lisa` the pane header is lilac over a white terminal; in `lisa-airbrush`
   the sky and the stardust unicorn show through the header and around text.
 - The rail fold keeps avatars whole at 60px and 76px.

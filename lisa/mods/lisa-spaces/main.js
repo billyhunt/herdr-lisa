@@ -9,20 +9,22 @@ import { v_flex, h_flex } from "gpui-base";
 import { spaces, machines, panes, run, openOverlay, exec, hc, theme, watchFolder, window } from "herdr";
 import { MONO, fill as lisaFill, onFill, accentText, label, chip, roundButton, row as lisaRow, lift, statusFill, narrow } from "./lisa.js";
 
-// Avatar fill is the project's colour, picked from fills 1..6 by where it
-// lives: a git repo's root (shared by its worktrees and second checkouts),
-// else its folder. Same project, same colour, across reorders and restarts.
-const placeFill = (key) => {
+// A space's mark is a small animal, no circle, inked like the row's text. Each
+// project (a git repo's root, shared by its worktrees and second checkouts,
+// else its folder) gets one. A new project prefers the animal its key hashes to,
+// but takes the least-used animal among the projects listed now, so two
+// projects in view only share one once all fourteen are taken. The pick is
+// stored (ANIMAL_STORE) as an index, so new animals only ever go on the end of
+// ANIMALS: a project keeps its animal across reorders and restarts.
+const ANIMALS = ["cat", "frog", "owl", "bear", "rabbit", "fox", "penguin", "mouse", "pig", "elephant", "dog", "chick", "octopus", "deer"];
+const ANIMAL_STORE = "lisa.project.animals";
+const hashOf = (key) => {
   let h = 0;
   for (const c of key) h = (h * 31 + c.codePointAt(0)) >>> 0;
-  return (h % 6) + 1;
+  return h;
 };
-const avatar = (t, w, key, size = 24) => {
-  const n = placeFill(key);
-  return h_flex().size(size).flex_none().rounded_full().border_3().border_color(t.border).bg(lisaFill(t, n))
-    .items_center().justify_center().font_bold().text_size(12).text_color(onFill(t, n))
-    .child([...w.name][0]?.toUpperCase() ?? "?");
-};
+const avatar = (animal, ink, size = 24) =>
+  svg(`mods/lisa-spaces/animal-${ANIMALS[animal]}.svg`).size(size).flex_none().text_color(ink);
 const dot = (t, n) => div().size(12).flex_none().rounded_full().border_3().border_color(t.border).bg(lisaFill(t, n));
 // On a filled row the fill already says working/done; only blocked keeps a
 // notice, lemon on the magenta row.
@@ -204,6 +206,32 @@ export default class Spaces extends View {
     openOverlay({ mod: "menu", kind: "popup", width: 200, height: 260, props: { tab: "space", target: { id: w.id } } });
   }
 
+  // Sets `animal` on each row. A key git hasn't answered for yet (`!known`) may
+  // still turn into its repo root, so its animal is used but not stored.
+  assignAnimals(list) {
+    const stored = (this.projectAnimals ??= JSON.parse(localStorage.getItem(ANIMAL_STORE) ?? "{}"));
+    const pass = {};
+    const used = Array(ANIMALS.length).fill(0);
+    for (const k of new Set(list.map((r) => r.key))) if (stored[k] !== undefined) used[stored[k]]++;
+    let dirty = false;
+    for (const r of list) {
+      let n = stored[r.key] ?? pass[r.key];
+      if (n === undefined) {
+        const pref = hashOf(r.key) % ANIMALS.length;
+        n = pref;
+        for (let o = 1; o < ANIMALS.length; o++) {
+          const c = (pref + o) % ANIMALS.length;
+          if (used[c] < used[n]) n = c;
+        }
+        used[n]++;
+        pass[r.key] = n;
+        if (r.known) { stored[r.key] = n; dirty = true; }
+      }
+      r.animal = n;
+    }
+    if (dirty) localStorage.setItem(ANIMAL_STORE, JSON.stringify(stored));
+  }
+
   // Spaces in order, each worktree space moved under its main checkout's.
   ordered() {
     const sp = spaces(), ps = panes();
@@ -211,8 +239,9 @@ export default class Spaces extends View {
     for (const w of sp) if (!this.shown.has(w.id) && ready(w)) this.shown.add(w.id);
     const list = sp.map((w, i) => {
       const k = where(w, ps), g = this.git[k] ?? null;
-      return { w, i, g, key: colorKey(k, g) };
+      return { w, i, g, key: colorKey(k, g), known: k in this.git };
     }).filter((r) => this.shown.has(r.w.id));
+    this.assignAnimals(list);
     const mains = new Set(list.filter((r) => r.g && !r.g.linked).map((r) => r.g.repo));
     const nested = (r) => r.g?.linked && mains.has(r.g.repo);
     const out = [];
@@ -293,7 +322,7 @@ export default class Spaces extends View {
       .when(g.behind > 0, (el) => el.child(div().flex_none().child(`\u2193${g.behind}`)));
   }
 
-  row({ w, i, g, tree, key }, t) {
+  row({ w, i, g, tree, animal }, t) {
     const on = w.active;
     const n = statusFill(w.status);
     const ink = onFill(t, n);
@@ -339,14 +368,14 @@ export default class Spaces extends View {
           .gap(8)
           .items_center()
           .when(Boolean(tree), el => el.pl(24).child(svg("mods/lisa-spaces/branch.svg").size(12).text_color(ink)))
-          .when(!tree, el => el.child(avatar(t, w, key)))
+          .when(!tree, el => el.child(avatar(animal, ink)))
           .child(div().flex_shrink(0).max_w(150).truncate().font_medium().child(w.name))
           .child(g ? this.gitTail(g, tree, w.name, t, ink) : div().flex_1())
           .when(Boolean(mark), el => el.child(mark)),
       ), on).flex_none();
   }
 
-  compact({ w, key }, t) {
+  compact({ w, animal }, t) {
     return lift(t, lisaRow(t, `space-${w.id}`, w.status)
       .flex()
       .h(36)
@@ -354,7 +383,7 @@ export default class Spaces extends View {
       .justify_center()
       .items_center()
       .on_click(() => run("space.select", { id: w.id }))
-      .child(avatar(t, w, key, 28)), w.active).flex_none();
+      .child(avatar(animal, onFill(t, statusFill(w.status)), 26)), w.active).flex_none();
   }
 
   render() {
