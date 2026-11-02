@@ -14,12 +14,12 @@ import { layout, run, shared, setShared, window } from "herdr";
 export const DISPLAY = "Bungee Shade";
 export const MONO = "Space Mono";
 // Fill by job: 1 primary/blocked, 2 warning, 3 highlight, 4 success/done,
-// 5 selection/working, 6 decoration, 7 idle (a soft violet tint, so resting
-// things sit back and only live states are full neon). A fill's text colour is
+// 5 selection/idle (cyan: waiting for you to type), 6 working (violet),
+// 7 spare soft violet tint. A fill's text colour is
 // t.on_fill_<n> where the theme sets one (6 and 7), else t.on_fill.
 // Outside the Lisa themes (`herdr-app check` renders with a stock theme) the
 // tokens are missing, so each falls back to the nearest stock colour.
-const STOCK_FILL = { 1: "blocked", 2: "accent", 3: "accent", 4: "done", 5: "working", 6: "accent", 7: "idle" };
+const STOCK_FILL = { 1: "blocked", 2: "accent", 3: "accent", 4: "done", 5: "idle", 6: "working", 7: "idle" };
 export const fill = (t, n) => t[`fill_${n}`] ?? t[STOCK_FILL[n]];
 export const onFill = (t, n) => t[`on_fill_${n}`] ?? t.on_fill ?? t.accent_foreground;
 export const accentText = t => t.accent_text ?? t.accent;
@@ -33,10 +33,10 @@ export const chip = (t, text, n) =>
     .bg(fill(t, n)).text_color(onFill(t, n)).font_family(MONO).font_bold().text_size(10.5)
     .child(String(text).toUpperCase());
 
-// Status by job: blocked is fill 1, working fill 5, done fill 4, idle fill 7.
+// Status by job: blocked is fill 1, working fill 6, done fill 4, idle fill 5.
 // Anything without an agent status (a plain shell) reads as idle.
-export const STATUS_FILL = { blocked: 1, working: 5, done: 4, idle: 7 };
-export const statusFill = status => STATUS_FILL[status] ?? 7;
+export const STATUS_FILL = { blocked: 1, working: 6, done: 4, idle: 5 };
+export const statusFill = status => STATUS_FILL[status] ?? 5;
 
 // A round icon button: plain at rest, selection fill under a 3px edge on hover.
 export const roundButton = (t, id, child, action) =>

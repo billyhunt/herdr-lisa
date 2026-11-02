@@ -61,11 +61,11 @@ Top to bottom, left to right, in both layouts:
 
 ## How it behaves
 
-- **Working**: cyan pill/tab; a spinner in the on-fill colour.
+- **Working**: violet pill/tab (`fill_6`); a spinner in the on-fill colour.
 - **Blocked** (needs you): magenta pill/tab with a lemon `NEEDS YOU` chip.
 - **Done**, not yet seen: lime pill/tab.
-- **Idle** (and plain shells): soft violet (`fill_7`), so resting work recedes
-  and live states stand out.
+- **Idle** (and plain shells): cyan (`fill_5`), waiting for you. `fill_7`, the
+  soft violet tint, is unused by status.
 - Clicks, drags, reordering, pins, peeks, folding, the right-click menus, the
   agent sort popup and all keys behave as Herdr's stock mods do. Hover lights
   round buttons cyan with a 3px edge.
@@ -124,9 +124,9 @@ Top to bottom, left to right, in both layouts:
 
 - `herdr-app check` passes for all six `mods/lisa-*` and `herdr-app status`
   shows no errors after `layout.switch {name: "lisa"}` and `"lisa-airbrush"`.
-- An agent working shows a cyan pill in Spaces, Agents and its folder tab and a
+- An agent working shows a violet pill in Spaces, Agents and its folder tab and a
   `1 WORKING` chip in the status bar; blocked turns them magenta with `NEEDS YOU`.
-- An idle space is soft violet; reordering spaces doesn't change avatar colours.
+- An idle space is cyan; reordering spaces doesn't change avatar colours.
 - In `lisa` the pane header is lilac over a white terminal; in `lisa-airbrush`
   the sky and the stardust unicorn show through the header and around text.
 - The rail fold keeps avatars whole at 60px and 76px.

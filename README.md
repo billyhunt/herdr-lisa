@@ -36,10 +36,10 @@ Pills show status everywhere (spaces, agents, folder tabs):
 
 | Status | Pill |
 |---|---|
-| Working | cyan |
+| Working | violet |
 | Needs you | magenta, lemon NEEDS YOU chip |
 | Done, not yet seen | lime |
-| Idle | soft violet |
+| Idle (waiting for you) | cyan |
 
 A space's circle is its project's colour, picked from its git repo (shared by
 worktrees and second checkouts) or folder. The selected item has a hard shadow.
