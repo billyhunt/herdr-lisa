@@ -43,7 +43,7 @@ export default class Tabs extends View {
     const shown = space?.tabs ?? [];
     const stop = (_e, cx) => cx.stop_propagation();
     // Folder tabs: square bottoms resting on the bar's 3px rule, rounded tops,
-    // filled with the status (working 6, blocked 1, done 4, idle 5). The
+    // filled with the status (working 7, blocked 1, done 4, idle 5). The
     // active tab stands taller.
     const item = (c, i) => {
       const program = panes().find(p => p.tab === c.id && p.program?.agent)?.program ?? panes().find(p => p.tab === c.id)?.program;

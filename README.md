@@ -36,7 +36,7 @@ Pills show status everywhere (spaces, agents, folder tabs):
 
 | Status | Pill |
 |---|---|
-| Working | violet |
+| Working | lilac |
 | Needs you | magenta, lemon NEEDS YOU chip |
 | Done, not yet seen | lime |
 | Idle (waiting for you) | cyan |
